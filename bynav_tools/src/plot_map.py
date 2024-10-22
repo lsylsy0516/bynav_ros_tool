@@ -39,9 +39,9 @@ san_map = folium.Map(
 def PlotLineOnMap(Lat, Lon, index):
     tri = np.array(list(zip(Lat, Lon)))
     folium.PolyLine(tri, color=colors[index % len(colors)]).add_to(san_map)
-    marker_cluster = plugins.MarkerCluster().add_to(san_map)
-    for lat, lon in zip(Lat, Lon):
-        folium.Marker([lat, lon], color='red').add_to(marker_cluster)
+    # marker_cluster = plugins.MarkerCluster().add_to(san_map)
+    # for lat, lon in zip(Lat, Lon):
+    #     folium.Marker([lat, lon], color='red').add_to(marker_cluster)
 
 
 

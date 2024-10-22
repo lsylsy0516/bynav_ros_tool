@@ -1,6 +1,9 @@
 # bynav_ros_tool
 A ros pachage to use bynav X1-6H in ros1 noetic 
 
+![](bynav_tools/src/test.png)
+![](bynav_tools/src/rviz.png)
+
 ## Platform
 - Ubuntu 20.04
 - ROS noetic
