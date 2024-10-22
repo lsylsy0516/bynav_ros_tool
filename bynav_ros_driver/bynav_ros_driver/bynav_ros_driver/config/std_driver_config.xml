@@ -1,0 +1,55 @@
+<launch>
+	<arg name="publish_tf" default="true"/>
+
+	<!--  Supported Oem7 messages - refer to Oem7 user manual. -->
+	<rosparam file="$(find bynav_ros_driver)/config/oem7_msgs.yaml" command="load" ns="/bynav/oem7"/>	
+
+   	<!-- Supported IMUs - refer to Oem7 user manual-->
+	<rosparam file="$(find bynav_ros_driver)/config/supported_imus.yaml" command="load" ns="/bynav/oem7"/>
+
+
+	<!-- Nodelet Manager, hosting the nodelets comprising the driver --> 
+  <node pkg="nodelet" type="nodelet" args="manager" name="driver"  ns= "/bynav/oem7" output="screen" />
+	
+	<!-- Nodelet interfacing with receiver to handle Oem7 Logs and publish ROS messages.  -->
+	<node pkg="nodelet" type="nodelet" name="main" ns="/bynav/oem7/receivers"
+	      args="load bynav_ros_driver/Oem7MessageNodelet /bynav/oem7/driver" output="screen">
+
+		<!-- Message Handler Plugins -->
+		<rosparam file="$(find bynav_ros_driver)/config/std_msg_handlers.yaml" />
+
+		<param name="oem7_msg_decoder"   value="Oem7MessageDecoder"    type="string" />
+
+		<param name="publish_tf" value="$(arg publish_tf)" type="bool" />
+
+		<!-- All unknown fragments are published to oem7raw topic -->
+		<param name="oem7_publish_unknown_oem7raw" value="true" type="bool" />
+
+		<param name="imu_rate" value="125" />  <!-- 125Hz-->
+		<!-- gyro scale factor °/s/LSB -->
+		<param name="imu_gyro_scale_factor"  value="2.88991928100586e-05" />
+		<!-- acc scale factor m/s2/LSB -->
+		<param name="imu_accel_scale_factor" value="7.48188018798828e-06" />
+	</node>
+
+	<!-- Nodelet sending receiver configuration commands. -->
+	<node pkg="nodelet" type="nodelet" name="config" ns="/bynav/oem7/receivers/main"
+			  args="load bynav_ros_driver/Oem7ConfigNodelet /bynav/oem7/driver" output="screen">
+	</node>
+	
+	
+	<!-- Standard receiver initialization commands. -->
+	<rosparam file="$(find bynav_ros_driver)/config/std_init_commands.yaml" ns="/bynav/oem7/receivers/main"/>
+	
+	<!-- Standard Oem7 raw messages to publish -->
+	<rosparam file="$(find bynav_ros_driver)/config/std_oem7_raw_msgs.yaml" ns="/bynav/oem7/receivers/main"/> 
+	
+	<!-- Standard Messages / Topics to publish -->
+	<rosparam file="$(find bynav_ros_driver)/config/std_msg_topics.yaml" ns="/bynav/oem7/receivers/main"/> 
+
+	<rosparam file="$(find bynav_ros_driver)/config/ntrip_parameters.yaml" ns="/bynav/oem7/receivers/main"/>
+
+	<rosparam file="$(find bynav_ros_driver)/config/nmea_parameters.yaml" ns="/bynav/oem7/receivers/main"/>
+	
+</launch>
+

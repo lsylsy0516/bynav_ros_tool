@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: gps-common
+Version: 0.3.2
+Summary: GPS messages and common routines for use in GPS drivers
+Home-page: http://ros.org/wiki/gps_common
+Author: 
+Maintainer: Timo Roehling <timo.roehling@fkie.fraunhofer.de>, P. J. Reed <preed@swri.org>
+License: BSD
+Requires: sensor_msgs

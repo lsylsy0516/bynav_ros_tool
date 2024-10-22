@@ -1,0 +1,8 @@
+NTRIP: {
+  enable: '0', # 0 关闭, 1 开启
+  ip: '203.107.45.154',
+  port: 8002,
+  username: 'gxyjhc008',
+  password: 'a436785',
+  mountpoint: 'AUTO'
+}

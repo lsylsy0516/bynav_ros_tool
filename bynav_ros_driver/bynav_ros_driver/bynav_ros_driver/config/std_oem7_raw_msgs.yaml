@@ -1,0 +1,21 @@
+oem7_raw_msgs:
+- BESTGNSSPOS
+- BESTPOS
+- BESTVEL
+- PPPPOS
+- TERRASTARINFO
+- TERRASTARSTATUS                     
+- INSPVAX                    
+- INSUPDATESTATUS
+- RAWIMUSX
+- RAWEPHEM                  
+- GLOEPHEMERIS              
+- BDSEPHEMERIS
+- GALFNAVEPHEMERIS
+- GALINAVEPHEMERIS
+- RANGE            
+- HEADING2                
+- TIME                   
+- RXSTATUS
+- INSCONFIG                                  
+- BYINS2

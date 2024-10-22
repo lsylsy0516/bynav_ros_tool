@@ -1,0 +1,28 @@
+<launch>
+
+  <!-- ICOM connection to the receiver; you need to determine receiver's IP address -->
+	<arg name="oem7_if"        default="Oem7ReceiverTcp" />
+	<arg name="oem7_ip_addr"   default="127.0.0.1"       /> <!--  E.g. "127.0.0.1"  -->
+	<arg name="oem7_port"      default="8888"            />
+
+	<!-- 数据保存文件路径, 为空时不保存 -->
+	<arg name="oem7_receiver_log" default="" />
+	<!-- 数据文件的最大大小， 超过该值时切换新文件保存, 单位为 MB, 设置为 0 则一直存放到一个文件中 -->
+	<arg name="max_log_size" default="100" />
+
+	<param name="/bynav/oem7/receivers/main/oem7_if"        value="$(arg oem7_if)"      type="string" />
+	<param name="/bynav/oem7/receivers/main/oem7_ip_addr"   value="$(arg oem7_ip_addr)" type="string" />
+	<param name="/bynav/oem7/receivers/main/oem7_port"      value="$(arg oem7_port)"    type="int" />
+	
+	<param name="/bynav/oem7/receivers/main/oem7_receiver_log_file" 
+	       value="$(arg oem7_receiver_log)"   type="string" />
+	<param name="/bynav/oem7/receivers/main/max_log_size" 
+				 value="$(arg max_log_size)"   type="int" />
+    	
+	<include file="$(find bynav_ros_driver)/config/std_driver_config.xml">
+	</include>
+
+
+</launch>
+
+

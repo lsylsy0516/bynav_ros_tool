@@ -1,0 +1,65 @@
+
+<library path="lib/libbynav_ros_driver">
+    <class name="Oem7ReceiverTcp" type="bynav_ros_driver::Oem7ReceiverTcp" base_class_type="bynav_ros_driver::Oem7ReceiverIf">
+        <description>
+            Oem7 Receiver TCP interface.
+        </description>
+    </class>
+
+    <class name="Oem7ReceiverUdp" type="bynav_ros_driver::Oem7ReceiverUdp" base_class_type="bynav_ros_driver::Oem7ReceiverIf">
+        <description>
+            Oem7 Receiver UDP interface.
+        </description>
+    </class>
+
+    <class name="Oem7ReceiverPort" type="bynav_ros_driver::Oem7ReceiverPort" base_class_type="bynav_ros_driver::Oem7ReceiverIf">
+        <description>
+            Oem7 Receiver serial port interface
+        </description>
+    </class>
+
+    <class name="Oem7MessageDecoder" type="bynav_ros_driver::Oem7MessageDecoder" base_class_type="bynav_ros_driver::Oem7MessageDecoderIf">
+        <description>
+            Standard Oem7 Message Decoder
+        </description>
+    </class>
+
+    <class name="BESTPOSHandler" type="bynav_ros_driver::BESTPOSHandler" base_class_type="bynav_ros_driver::Oem7MessageHandlerIf">
+        <description>
+            Standard BESTPOS Handler. 
+        </description>
+    </class>
+
+    <class name="INSHandler" type="bynav_ros_driver::INSHandler" base_class_type="bynav_ros_driver::Oem7MessageHandlerIf">
+        <description>
+            Standard INS/IMU Handler. 
+        </description>
+    </class>
+    
+    <class name="ALIGNHandler" type="bynav_ros_driver::ALIGNHandler" base_class_type="bynav_ros_driver::Oem7MessageHandlerIf">
+        <description>
+            ALIGN  Handler. 
+        </description>
+    </class>
+    
+    <class name="TimeHandler" type="bynav_ros_driver::TimeHandler" base_class_type="bynav_ros_driver::Oem7MessageHandlerIf">
+        <description>
+            Time-related messages. 
+        </description>
+    </class>
+    
+    <class name="RXSTATUSHandler" type="bynav_ros_driver::ReceiverStatusHandler" base_class_type="bynav_ros_driver::Oem7MessageHandlerIf">
+        <description>
+            Receiver Status (RXSTATUS) messages. 
+        </description>
+    </class>
+    
+    <class name="NMEAHandler" type="bynav_ros_driver::NMEAHandler" base_class_type="bynav_ros_driver::Oem7MessageHandlerIf">
+        <description>
+            NMEA 0183 messages. 
+        </description>
+    </class>
+    
+
+</library>
+

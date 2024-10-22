@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>bynav_ros_driver</name>
+
+  <version>1.1.2</version>
+
+  <description>Bynav ROS Driver</description>
+
+  <maintainer email="bynav@bynav.com">Bynav Support</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">https://www.bynav.com</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <depend>boost</depend>
+  <depend>nodelet</depend>
+  <depend>roscpp</depend>
+  <depend>gps_common</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nmea_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>novatel_oem7_msgs</depend>
+  <depend>tf2_geometry_msgs</depend>
+  <test_depend>rostest</test_depend>
+  <test_depend>rosbag</test_depend>
+  
+  <export>
+    <nodelet          plugin="${prefix}/bynav_ros_driver_nodelets.xml" />
+    <bynav_ros_driver plugin="${prefix}/bynav_ros_driver_plugins.xml" />
+  </export>
+</package>

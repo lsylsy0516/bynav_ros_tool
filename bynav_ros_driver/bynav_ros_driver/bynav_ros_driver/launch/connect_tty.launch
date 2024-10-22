@@ -1,0 +1,28 @@
+<launch>
+
+  <!-- USB serial port connection to the receiver; you need to determine your tty name. -->
+  <arg name="oem7_if"         default="Oem7ReceiverPort" />
+  <!-- 串口名称 -->
+  <arg name="oem7_tty_name"   default="/dev/ttyUSB0" />
+  <!-- 串口波特率 -->
+  <arg name="oem7_tty_baud"   default="115200" />
+  <!-- 数据保存文件路径, 为空时不保存 -->
+  <arg name="oem7_receiver_log" default="src/bynav_data" />
+  <!-- 数据文件的最大大小， 超过该值时切换新文件保存, 单位为 MB, 设置为 0 则一直存放到一个文件中 -->
+  <arg name="max_log_size" default="100" />
+
+  <param name="/bynav/oem7/receivers/main/oem7_if"        value="$(arg oem7_if)"         type="string" />
+  <param name="/bynav/oem7/receivers/main/oem7_tty_name"  value="$(arg oem7_tty_name)"   type="string" />
+  <param name="/bynav/oem7/receivers/main/oem7_tty_baud"  value="$(arg oem7_tty_baud)"   type="int" />
+
+  <param name="/bynav/oem7/receivers/main/oem7_receiver_log_file" 
+          value="$(arg oem7_receiver_log)"   type="string" />
+  <param name="/bynav/oem/receivers/main/max_log_size" 
+          value="$(arg max_log_size)"   type="int" />
+
+  <include file="$(find bynav_ros_driver)/config/std_driver_config.xml">
+  </include>
+
+</launch>
+
+

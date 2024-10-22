@@ -1,0 +1,22 @@
+
+<library path="lib/libbynav_ros_driver">
+    <class name="bynav_ros_driver/Oem7LogNodelet" type="bynav_ros_driver::Oem7LogNodelet" base_class_type="nodelet::Nodelet">
+        <description>
+            Oem7 Log Nodelet.
+        </description>
+    </class>
+
+    <class name="bynav_ros_driver/Oem7MessageNodelet" type="bynav_ros_driver::Oem7MessageNodelet" base_class_type="nodelet::Nodelet">
+        <description>
+            Oem7 Message Nodelet.
+        </description>
+    </class>
+
+    <class name="bynav_ros_driver/Oem7ConfigNodelet" type="bynav_ros_driver::Oem7ConfigNodelet" base_class_type="nodelet::Nodelet">
+        <description>
+            Oem7 Config Nodelet.
+        </description>
+    </class>
+
+</library>
+

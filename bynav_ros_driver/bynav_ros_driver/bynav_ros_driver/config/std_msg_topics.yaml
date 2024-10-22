@@ -1,0 +1,26 @@
+# ROS-standard
+IMU:        {topic: /gps/imu,                 frame_id: imu_link}
+RAWIMU:     {topic: /imu/data_raw,            frame_id: imu_link}
+GPSFix:     {topic: /gps/gps,                 frame_id: gps}
+NavSatFix:  {topic: /gps/fix,                 frame_id: gps} 
+Odometry:   {topic: /odom,                    frame_id: odom} 
+
+# Oem7-specific 
+Oem7RawMsg:    {topic: /bynav/oem7raw,            frame_id: gps, queue_size: "200"}
+BESTGNSSPOS:   {topic: /bynav/bestgnsspos,        frame_id: gps}
+BESTPOS:    {topic: /bynav/bestpos,               frame_id: gps}
+BESTUTM:    {topic: /bynav/bestutm,               frame_id: gps}
+BESTVEL:    {topic: /bynav/bestvel,               frame_id: gps}
+PPPPOS:     {topic: /bynav/ppppos,                frame_id: gps}
+TERRASTARINFO:   {topic: /bynav/terrastarinfo,    frame_id: gps}
+TERRASTARSTATUS: {topic: /bynav/terrastarstatus,  frame_id: gps}
+CORRIMU:    {topic: /bynav/corrimu,               frame_id: gps}
+CORRIMUDATA:    {topic: /bynav/corrimudata,       frame_id: gps}
+HEADING2:   {topic: /bynav/heading2,              frame_id: gps}
+INSPVA:     {topic: /bynav/inspva,                frame_id: gps}
+INSPVAX:    {topic: /bynav/inspvax,               frame_id: gps,  queue_size: "10"}
+INSSTDEV:   {topic: /bynav/insstdev,              frame_id: gps,  queue_size: "10"}
+INSCONFIG:  {topic: /bynav/insconfig,             frame_id: gps,  queue_size: "10"}
+RXSTATUS:   {topic: /bynav/rxstatus,              frame_id: gps,  queue_size: "10"}
+TIME:       {topic: /bynav/time,                  frame_id: gps} 
+BYINS2:     {topic: /bynav/byins2,                frame_id: gps,  queue_size: "10"}
