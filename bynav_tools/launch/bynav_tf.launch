@@ -1,0 +1,7 @@
+<launch>
+
+<node pkg="bynav_tools" type="tf_pub.py" name="bynav_tf" output="screen" />
+
+<node pkg="bynav_tools" type="ros_tf_bestposa.py" name="bynav_bestposa" output="screen" />
+
+</launch>

@@ -65,7 +65,7 @@ def get_route(start, end, mode, amap_key):
 def get_Lat_Lon(route):
     for i, step in enumerate(route):
         list_latlon.append(step["polyline"])
-        print(f'步骤 {i + 1}: {step["instruction"]}:{step["polyline"]}')
+        # print(f'步骤 {i + 1}: {step["instruction"]}:{step["polyline"]}')
     for item in list_latlon:
         points = item.split(';')
         for point in points:

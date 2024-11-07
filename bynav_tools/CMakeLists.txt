@@ -161,6 +161,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   # src/ros_plot_bestposa.py
   src/ros_tf_bestposa.py
+  src/tf_pub.py
   # src/plot_map.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
