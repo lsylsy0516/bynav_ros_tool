@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import os
 sys.path.append(os.path.dirname(__file__))
@@ -16,18 +16,16 @@ from map_transform import GCJ02ToWGS84
 class TfPublisherNode:
     def __init__(self):
         # Setup ROS node parameters
-        rospy.init_node('tf_publisher_node')
 
         # Constants
         self.ATTITUDE_TOPIC = '/bynav/inspvax'    
         self.POS_TOPIC = '/bynav/bestpos'    
         self.ROBO_PATH_TOPIC = '/robot_path'
         self.MAP_PATH_TOPIC = '/map_path'
-        self.EPSG_4326 = "EPSG:4326"
-        self.EPSG_32633 = "EPSG:32633"
 
         # Initialize variables
         self.origin_x = self.origin_y = self.origin_z = None
+        self.origin_yaw = None
         self.Lat = []
         self.Lon = []
         self.path_msg = Path()
@@ -38,14 +36,21 @@ class TfPublisherNode:
         self.tf_broadcaster = tf2_ros.TransformBroadcaster()
         self.path_publisher = rospy.Publisher(self.ROBO_PATH_TOPIC, Path, queue_size=10)
         self.map_path_publisher = rospy.Publisher(self.MAP_PATH_TOPIC, Path, queue_size=10)
-        self.transformer = Transformer.from_crs(self.EPSG_4326, self.EPSG_32633, always_xy=True)
+        self.transformer = Transformer.from_crs("EPSG:4326", "EPSG:3857", always_xy=True)
 
         # Define routes using your specific keys
         AMAP_KEY = '82ed988a4b5e5da017c5f4b038604822'
         START = '113.967847,22.592495'
         END = '113.98053,22.585877'
         self.routes = get_route(START, END, mode=32, amap_key=AMAP_KEY)
-
+        for route in self.routes:
+            gjc_Lat, gjc_Lon = get_Lat_Lon(route['steps'])
+            rospy.loginfo(f"Lat count: {len(gjc_Lat)}")
+            for gjc_lat, gjc_lon in zip(gjc_Lat, gjc_Lon):
+                lon, lat = GCJ02ToWGS84(gjc_lon, gjc_lat)
+                self.Lat.append(lat)
+                self.Lon.append(lon)
+            break
         # Setup subscribers
         rospy.Subscriber(self.POS_TOPIC, Bestposa, self.position_callback)
         rospy.Subscriber(self.ATTITUDE_TOPIC, Inspvax, self.attitude_callback)
@@ -56,6 +61,7 @@ class TfPublisherNode:
     def extract_routes(self):
         for route in self.routes:
             gjc_Lat, gjc_Lon = get_Lat_Lon(route['steps'])
+            rospy.logdebug(f"Lat count: {len(gjc_Lat)}")
             for gjc_lat, gjc_lon in zip(gjc_Lat, gjc_Lon):
                 lon, lat = GCJ02ToWGS84(gjc_lon, gjc_lat)
                 self.Lat.append(lat)
@@ -65,7 +71,7 @@ class TfPublisherNode:
     def initialize_origin(self, x, y, z):
         """Initialize the origin coordinates."""
         self.origin_x, self.origin_y, self.origin_z = x, y, z
-
+    
     def transform_coordinates(self, lon, lat):
         """Transform longitude and latitude to UTM coordinates."""
         return self.transformer.transform(lon, lat)
@@ -111,8 +117,10 @@ class TfPublisherNode:
         x, y = self.transform_coordinates(pos_msg.lon, pos_msg.lat)
         z = pos_msg.hgt
         roll, pitch, yaw = att_msg.roll, att_msg.pitch, att_msg.azimuth
-        # yaw = yaw -150
-
+        # print("before",yaw)
+        # yaw = (yaw +180) % 360
+        # yaw = (yaw + 120 ) # 1102
+        # print("after",yaw)
         # Transfer from degree to radian
         roll, pitch, yaw = roll / 180.0 * 3.1415926, pitch / 180.0 * 3.1415926, yaw / 180.0 * 3.1415926
 
@@ -121,10 +129,20 @@ class TfPublisherNode:
             self.initialize_origin(x, y, z)
             for lat, lon in zip(self.Lat, self.Lon):
                 m_x, m_y = self.transform_coordinates(lon, lat)
-                self.map_path_msg.poses.append(self.create_pose_stamped(m_x - self.origin_x, m_y - self.origin_y, 0, 0, 0, 0, 1))
-
+                m_x = m_x - self.origin_x
+                m_y = m_y - self.origin_y
+                m_x, m_y = -m_y, m_x
+                self.map_path_msg.poses.append(self.create_pose_stamped(m_x,m_y, 0, 0, 0, 0, 1))
+        if self.origin_yaw is None:
+            self.origin_yaw = yaw
+        
         # Calculate displacement from origin
         dx, dy, dz = x - self.origin_x, y - self.origin_y, z - self.origin_z
+        yaw = self.origin_yaw - yaw
+        self.yaw = yaw
+        print("yaw",self.yaw)
+        # 旋转90度
+        dx, dy = -dy, dx
         # Create and publish TransformStamped message
         transform_msg = TransformStamped()
         transform_msg.header.stamp = rospy.Time.now()
@@ -146,5 +164,6 @@ class TfPublisherNode:
         self.map_path_publisher.publish(self.map_path_msg)
 
 if __name__ == "__main__":
+    rospy.init_node('tf_publisher_node')
     node = TfPublisherNode()
     rospy.spin()

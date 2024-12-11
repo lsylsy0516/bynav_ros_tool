@@ -36,8 +36,10 @@ san_map = folium.Map(
         control_scale=True,
         tiles='http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', # google卫星图
         attr='default')
+
 def PlotLineOnMap(Lat, Lon, index):
     tri = np.array(list(zip(Lat, Lon)))
+    print(len(tri))
     folium.PolyLine(tri, color=colors[index % len(colors)]).add_to(san_map)
     # marker_cluster = plugins.MarkerCluster().add_to(san_map)
     # for lat, lon in zip(Lat, Lon):
@@ -78,9 +80,10 @@ def get_Lat_Lon(route):
 
 def main():
     routes = get_route(warehouse_location, farm_location, strategy, amap_key)
+    # print(f"len of routes:  {(routes)}")
     for index, route in enumerate(routes):
         route = route['steps']
-        # print(route)
+        print(route)
         if route:
             Lat, Lon = get_Lat_Lon(route)
         else:
@@ -90,7 +93,6 @@ def main():
         list_latlon.clear()
         Lon.clear()
         Lat.clear()
-
         break
     # san_map.fit_bounds([[113.967847,22.592495],
     #                     [113.98053, 22.592495],
